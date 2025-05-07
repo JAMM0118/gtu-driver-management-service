@@ -8,6 +8,7 @@ public class DriverManagementServiceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(DriverManagementServiceApplication.class, args);
+		System.out.println("Driver Management Service is running...");
 	}
 
 }
