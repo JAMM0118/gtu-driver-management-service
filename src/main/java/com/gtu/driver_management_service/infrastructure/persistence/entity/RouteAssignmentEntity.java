@@ -1,24 +1,28 @@
 package com.gtu.driver_management_service.infrastructure.persistence.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "route_assignments")
+
 public class RouteAssignmentEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id; 
     private UUID driverId;
     private UUID routeId;
+    private LocalDateTime assignedAt;
 
-    // Getters y setters
-    public Long getId() {
+    public RouteAssignmentEntity() {
+    }
+
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -36,5 +40,13 @@ public class RouteAssignmentEntity {
 
     public void setRouteId(UUID routeId) {
         this.routeId = routeId;
+    }
+
+    public LocalDateTime getAssignedAt() {
+        return assignedAt;
+    }
+
+    public void setAssignedAt(LocalDateTime assignedAt) {
+        this.assignedAt = assignedAt;
     }
 }

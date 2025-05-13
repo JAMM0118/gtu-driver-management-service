@@ -1,7 +1,7 @@
 package com.gtu.driver_management_service.interfaces.controllers;
 
 import com.gtu.driver_management_service.application.dto.RouteAssignmentRequest;
-import com.gtu.driver_management_service.application.usecases.AssignRouteUseCase;
+import com.gtu.driver_management_service.domain.ports.in.AssignRouteUseCase;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +18,7 @@ public class RouteAssignmentController {
 
     @PostMapping
     public ResponseEntity<Void> assignRoute(@Valid @RequestBody RouteAssignmentRequest request) {
-        useCase.execute(request.getDriverId(), request.getRouteId());
+        useCase.assignRouteToDriver(request.getDriverId(), request.getRouteId());
         return ResponseEntity.ok().build();
     }
 }
