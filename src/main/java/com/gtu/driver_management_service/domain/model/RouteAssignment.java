@@ -1,4 +1,4 @@
-/*package com.gtu.driver_management_service.assignment.domain.model;*/
+package com.gtu.driver_management_service.domain.model;
 
 import java.util.UUID;
 
