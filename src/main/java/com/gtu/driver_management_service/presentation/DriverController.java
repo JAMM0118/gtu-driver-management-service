@@ -1,38 +1,45 @@
 package com.gtu.driver_management_service.presentation;
 
-import org.springframework.web.bind.annotation.RestController;
-
 import com.gtu.driver_management_service.application.dto.DriverDTO;
-import com.gtu.driver_management_service.application.mapper.DriverMapper;
-
-import org.springframework.web.bind.annotation.RequestMapping;
-import com.gtu.driver_management_service.domain.model.Driver;
-import com.gtu.driver_management_service.domain.service.DriverService;
+import com.gtu.driver_management_service.application.dto.ResponseDTO;
+import com.gtu.driver_management_service.application.usecase.DriverUseCase;
 
 import jakarta.validation.Valid;
 
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
-
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/drivers")
 public class DriverController {
-    private final DriverService driverService;
-    private final DriverMapper driverMapper;
+    private final DriverUseCase driverUseCase;
 
-    public DriverController(DriverService driverService, DriverMapper driverMapper) {
-        this.driverService = driverService;
-        this.driverMapper = driverMapper;
+    public DriverController(DriverUseCase driverUseCase) {
+        this.driverUseCase = driverUseCase;
+
     }
 
-    @PostMapping    
-    public String createDriver(@Valid DriverDTO driverDTO) {
-        Driver driver = driverMapper.toDomain(driverDTO);
-        driverService.validateDriver(driver);
-        Driver saveDriver = driverService.saveDriver(driver);
-        return "Driver Created sucesfully" + saveDriver.getName();
+    @PostMapping
+    public ResponseEntity<ResponseDTO<DriverDTO>> createDriver(@Valid @RequestBody DriverDTO driverDTO) {
+        DriverDTO createDriver = driverUseCase.createDriver(driverDTO);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                new ResponseDTO<>(
+                        "Driver created successfully",
+                        createDriver,
+                        201));
     }
-    
+
+    @GetMapping
+    public ResponseEntity<ResponseDTO<List<DriverDTO>>> getAllDrivers() {
+        return ResponseEntity.ok(
+                new ResponseDTO<>(
+                        "Driver retrieved successfully",
+                        driverUseCase.getAllDrivers(),
+                        200));
+    }
 }

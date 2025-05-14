@@ -1,6 +1,8 @@
 package com.gtu.driver_management_service.application.service;
 
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import com.gtu.driver_management_service.domain.model.Driver;
 import com.gtu.driver_management_service.domain.repository.DriverRepository;
@@ -16,10 +18,13 @@ public class DriverServiceImpl  implements DriverService{
 
    @Override
    public void validateDriver(Driver driver){
-    if(driverRepository.findById(driver.getId()).isPresent()){
-           throw new IllegalArgumentException("The route name already exists: " + driver.getName());
-
+    if (driver.getName() == null || driver.getName().isEmpty()) {
+        throw new IllegalArgumentException("Driver name cannot be null or empty");
     }
+    if (driver.getDriverId() <= 0) {
+        throw new IllegalArgumentException("Driver ID must be greater than 0");
+    }
+    
    }
 
    @Override
@@ -27,5 +32,20 @@ public class DriverServiceImpl  implements DriverService{
     validateDriver(driver);
     return driverRepository.save(driver);
    }
+
+   @Override
+   public List<Driver> getAllDrivers() {
+    return driverRepository.findAll();
+   }
+
+  
+   @Override
+   public Driver createDriver(Driver driver) {
+    return driverRepository.save(driver);
+   }
+
+    
+
+
 
 }

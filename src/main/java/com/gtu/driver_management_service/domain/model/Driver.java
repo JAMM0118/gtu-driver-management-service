@@ -1,5 +1,7 @@
 package com.gtu.driver_management_service.domain.model;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,19 +15,17 @@ public class Driver {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private int driverId;
     private String name;
-    private String email;
-    private String phoneNumber;
-    private Integer[] routeAssigned;
+    private List<Long> routeAssigned;
 
     public Driver() {
     }
 
-    public Driver(Long id, String name, String email, String phoneNumber, Integer[] routeAssigned) {
+    public Driver(Long id, int driverId, String name, List<Long> routeAssigned) {
         this.id = id;
+        this.driverId = driverId;
         this.name = name;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
         this.routeAssigned = routeAssigned;
     }
 
@@ -41,22 +41,16 @@ public class Driver {
     public void setName(String name) {
         this.name = name;
     }
-    public String getEmail() {
-        return email;
+    public int getDriverId() {
+        return driverId;
     }
-    public void setEmail(String email) {
-        this.email = email;
+    public void setDriverId(int driverId) {
+        this.driverId = driverId;
     }
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-    public Integer[] getRouteAssigned() {
+    public List<Long> getRouteAssigned() {
         return routeAssigned;
     }
-    public void setRouteAssigned(Integer[] routeAssigned) {
+    public void setRouteAssigned(List<Long> routeAssigned) {
         this.routeAssigned = routeAssigned;
     }
 }

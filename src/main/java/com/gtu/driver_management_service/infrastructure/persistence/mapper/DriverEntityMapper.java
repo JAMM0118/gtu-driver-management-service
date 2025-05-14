@@ -7,11 +7,22 @@ import com.gtu.driver_management_service.infrastructure.persistence.entity.Drive
 
 @Component
 public class DriverEntityMapper {
+    
     public DriverEntity toEntity(Driver driver) {
-        return new DriverEntity(driver.getName(), driver.getEmail(), driver.getPhoneNumber(), driver.getRouteAssigned());
+        return new DriverEntity(
+            driver.getId(),
+            driver.getDriverId(),
+            driver.getName(),
+            driver.getRouteAssigned()
+        );
     }
 
     public Driver toDomain(DriverEntity entity) {
-        return new Driver(entity.getId(), entity.getName(), entity.getEmail(), entity.getPhoneNumber(), entity.getRouteAssigned());
+        return new Driver(
+            entity.getId(),
+            entity.getDriverId(),
+            entity.getName(),
+            entity.getRouteAssigned()
+        );
     }
 }

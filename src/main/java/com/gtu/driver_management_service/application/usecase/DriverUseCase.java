@@ -1,6 +1,9 @@
 package com.gtu.driver_management_service.application.usecase;
 
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
 import com.gtu.driver_management_service.application.dto.DriverDTO;
@@ -8,22 +11,29 @@ import com.gtu.driver_management_service.application.mapper.DriverMapper;
 import com.gtu.driver_management_service.domain.model.Driver;
 import com.gtu.driver_management_service.domain.service.DriverService;
 
-import jakarta.transaction.Transactional;
 
 @Service
 public class DriverUseCase {
     private final DriverService driverService;
-    private final DriverMapper driverMapper;
     
-    public DriverUseCase(DriverService driverService, DriverMapper driverMapper) {
+    public DriverUseCase(DriverService driverService) {
         this.driverService = driverService;
-        this.driverMapper = driverMapper;
+       
     }
 
-    @Transactional
-    public DriverDTO execute(DriverDTO driverDTO) {
-        Driver driver = driverMapper.toDomain(driverDTO);
-        Driver saveDriver = driverService.saveDriver(driver);
-        return driverMapper.toDTO(saveDriver);
+    public DriverDTO createDriver(DriverDTO driverDTO) {
+        Driver driver = DriverMapper.toDomain(driverDTO);
+        driverService.validateDriver(driver);
+        Driver savedDriver = driverService.saveDriver(driver);
+        return DriverMapper.toDTO(savedDriver);
+    }
+
+    
+
+    public List<DriverDTO> getAllDrivers() {
+        List<Driver> drivers = driverService.getAllDrivers();
+        return drivers.stream()
+                .map(DriverMapper::toDTO)
+                .collect(Collectors.toList());
     }
 }

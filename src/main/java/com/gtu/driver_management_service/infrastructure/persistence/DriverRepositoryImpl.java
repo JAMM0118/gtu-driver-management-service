@@ -1,5 +1,6 @@
 package com.gtu.driver_management_service.infrastructure.persistence;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
@@ -29,8 +30,18 @@ public class DriverRepositoryImpl implements DriverRepository {
     }
 
     @Override
-    public Optional<Driver> findById(Long id) {
-        return jpaDriverRepository.findById(id).map(driverEntityMapper::toDomain);
+    public Optional<Driver> findByName(String name) {
+        return jpaDriverRepository.findByName(name).map(driverEntityMapper::toDomain);
     }
+
+    
+    @Override
+    public List<Driver> findAll() {
+        return jpaDriverRepository.findAll().stream()
+                .map(driverEntityMapper::toDomain)
+                .toList();
+    }
+
+    
 
 }
