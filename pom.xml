@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.gtu</groupId>
-	<artifactId>driver_management_service</artifactId>
+	<artifactId>drivers_assignment_management_service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>driver_management_service</name>
+	<name>drivers_assignment_management_service</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
@@ -49,6 +49,7 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
+	
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
