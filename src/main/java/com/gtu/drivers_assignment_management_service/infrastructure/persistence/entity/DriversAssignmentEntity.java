@@ -26,7 +26,7 @@ public class DriversAssignmentEntity {
     private Long id;
 
     @Column(nullable = false)
-    private int driverId;
+    private int route;
     
     @Column(nullable = false)
     private String name;
@@ -37,13 +37,13 @@ public class DriversAssignmentEntity {
         joinColumns = @JoinColumn(name = "driver_id")
     )
     @Column(name = "route_id")
-    private List<Long> routesAssigned = new ArrayList<>();
+    private List<Long> driversAssignedToRoute = new ArrayList<>();
 
 
-    public DriversAssignmentEntity(Long id, int driverId, String name,List<Long> routesAssigned) {
+    public DriversAssignmentEntity(Long id, int route, String name,List<Long> driversAssignedToRoute) {
         this.id = id;
-        this.driverId = driverId;
+        this.route = route;
         this.name = name;
-        this.routesAssigned = routesAssigned;
+        this.driversAssignedToRoute = driversAssignedToRoute;
     }
 }

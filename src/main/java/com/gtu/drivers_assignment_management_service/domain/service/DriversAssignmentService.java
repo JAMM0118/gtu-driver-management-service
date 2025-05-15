@@ -9,4 +9,6 @@ public interface DriversAssignmentService {
     DriversAssignment saveDriver(DriversAssignment driversAssignment);
     List<DriversAssignment> getAllAssignedDrivers();
     DriversAssignment assignDriver(DriversAssignment driversAssignment);
+    DriversAssignment updateADriversAssignment(DriversAssignment driversAssignment);
+    void deleteADriverAssignment(Long id);
 }

@@ -9,4 +9,6 @@ public interface DriversAssignmentRepository {
     Optional<DriversAssignment> findByName(String name);
     DriversAssignment save(DriversAssignment driversAssignment);
     List<DriversAssignment> findAll();
+    void deleteById(Long id);
+    Optional<DriversAssignment> findById(Long id);
 }

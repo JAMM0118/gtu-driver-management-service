@@ -16,14 +16,14 @@ public class DriversAssignmentDTO {
        
     private Long id;
 
-    @NotNull(message = "The driver ID cannot be null")
-    private int driverId;
+    @NotNull(message = "The route ID cannot be null")
+    private int route;
     
     @NotEmpty(message = "The driver name cannot be empty")
     private String name;
     
-    @NotEmpty(message = "The routesAssigned list cannot be empty")
-    @Size(min = 2, message = "The routes assigned must have at least two routes")
-    private List<Long> routesAssigned;
+    @NotEmpty(message = "The driver assigned to route list cannot be empty")
+    @Size(min = 1, message = "The drivers assigned to route must have at least one driver")
+    private List<Long> driversAssignedToRoute;
 
 }

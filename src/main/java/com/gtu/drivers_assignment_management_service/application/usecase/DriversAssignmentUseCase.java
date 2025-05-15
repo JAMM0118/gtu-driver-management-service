@@ -36,4 +36,15 @@ public class DriversAssignmentUseCase {
                 .map(DriversAssignmentMapper::toDTO)
                 .collect(Collectors.toList());
     }
+
+    public DriversAssignmentDTO updateADriversAssignment(Long id, DriversAssignmentDTO driversAssignmentDTO) {
+        DriversAssignment driversAssignment = DriversAssignmentMapper.toDomain(driversAssignmentDTO);
+        driversAssignment.setId(id);
+        DriversAssignment updatedDriver = driversAssignmentService.updateADriversAssignment(driversAssignment);
+        return DriversAssignmentMapper.toDTO(updatedDriver);
+    }
+
+    public void deleteADriverAssignment(Long id) {
+        driversAssignmentService.deleteADriverAssignment(id);
+    }
 }

@@ -11,18 +11,18 @@ public class DriversAssignmentMapper {
     public DriversAssignment toDomain(DriversAssignmentDTO driversAssignmentDTO){
         return new DriversAssignment(
             driversAssignmentDTO.getId(),
-            driversAssignmentDTO.getDriverId(),
+            driversAssignmentDTO.getRoute(),
             driversAssignmentDTO.getName(),
-            driversAssignmentDTO.getRoutesAssigned()
+            driversAssignmentDTO.getDriversAssignedToRoute()
         );
     }
 
     public DriversAssignmentDTO toDTO(DriversAssignment driversAssignment){
         return new DriversAssignmentDTO(
             driversAssignment.getId(),
-            driversAssignment.getDriverId(),
+            driversAssignment.getRoute(),
             driversAssignment.getName(),
-            driversAssignment.getRoutesAssigned()
+            driversAssignment.getDriversAssignedToRoute()
         );
     }
     

@@ -11,18 +11,18 @@ public class DriversAssignmentEntityMapper {
     public DriversAssignmentEntity toEntity(DriversAssignment driversAssignment) {
         return new DriversAssignmentEntity(
             driversAssignment.getId(),
-            driversAssignment.getDriverId(),
+            driversAssignment.getRoute(),
             driversAssignment.getName(),
-            driversAssignment.getRoutesAssigned()
+            driversAssignment.getDriversAssignedToRoute()
         );
     }
 
     public DriversAssignment toDomain(DriversAssignmentEntity entity) {
         return new DriversAssignment(
             entity.getId(),
-            entity.getDriverId(),
+            entity.getRoute(),
             entity.getName(),
-            entity.getRoutesAssigned()
+            entity.getDriversAssignedToRoute()
         );
     }
 }

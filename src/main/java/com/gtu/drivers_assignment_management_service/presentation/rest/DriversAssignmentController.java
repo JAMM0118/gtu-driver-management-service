@@ -42,4 +42,28 @@ public class DriversAssignmentController {
                         driversAssignmentUseCase.getAllAssignedDrivers(),
                         200));
     }
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ResponseDTO<DriversAssignmentDTO>> updateDriverAssignment(
+            @PathVariable Long id,
+            @Valid @RequestBody DriversAssignmentDTO driversAssignmentDTO) {
+        DriversAssignmentDTO updatedDriver = driversAssignmentUseCase.updateADriversAssignment(id, driversAssignmentDTO);
+        return ResponseEntity.ok(
+                new ResponseDTO<>(
+                        "Driver assignment updated successfully",
+                        updatedDriver,
+                        200));
+    }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ResponseDTO<Void>> deleteDriverAssignment(@PathVariable Long id) {
+        driversAssignmentUseCase.deleteADriverAssignment(id);
+        return ResponseEntity.ok(
+                new ResponseDTO<>(
+                        "Driver assignment deleted successfully",
+                        null,
+                        200));
+    }
 }

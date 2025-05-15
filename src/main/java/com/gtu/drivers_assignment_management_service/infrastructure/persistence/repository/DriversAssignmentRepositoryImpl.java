@@ -42,6 +42,19 @@ public class DriversAssignmentRepositoryImpl implements DriversAssignmentReposit
                 .toList();
     }
 
+    @Override
+    public void deleteById(Long id) {
+        jpaDriversAssignmentRepository.deleteById(id);
+
+    }
+
+    @Override
+    public Optional<DriversAssignment> findById(Long id) {
+        return jpaDriversAssignmentRepository.findById(id)
+                .map(driversAssignmentEntityMapper::toDomain);
+    }
+    
+
     
 
 }
