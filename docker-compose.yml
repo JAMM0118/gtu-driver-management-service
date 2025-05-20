@@ -1,22 +1,24 @@
 services:
-  db:
-    image: postgres:15-alpine
-    ports:
-      - "5433:5432"
+  drivers_assignment_management_service:
+    build: .
+    container_name: drivers_assignment_management_service
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: gtu_db
-    volumes:
-      - db_data:/var/lib/postgresql/data
-  admin:
-    image: dpage/pgadmin4
-    ports:
-      - "3000:80"
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@gtu.com
-      PGADMIN_DEFAULT_PASSWORD: admin
-    depends_on:
-      - db
-volumes:
-  db_data:
+      - EUREKA_SERVER_HOST=discovery-server
+      - EUREKA_SERVER_PORT=8761
+      - GATEWAY_PORT=8080
+      - DB_HOST_ROUTE=postgres-main
+      - DB_PORT=5432
+      - DB_HOST_USER=postgres-users
+      
+      - DB_NAME_USER=gtu_users_db
+      - DB_NAME_ROUTE=gtu_main_db
+      - DB_USER=user
+      - DB_PASSWORD=password
+      - SERVER_PORT=0
+      - SWAGGER_SERVER_URL=1
+    networks:
+      - shared_network
+networks:
+  shared_network:
+    external: true
+

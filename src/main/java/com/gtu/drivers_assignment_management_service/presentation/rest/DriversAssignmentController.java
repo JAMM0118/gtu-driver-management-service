@@ -8,6 +8,9 @@ import com.gtu.drivers_assignment_management_service.application.dto.DriversAssi
 import com.gtu.drivers_assignment_management_service.application.dto.ResponseDTO;
 import com.gtu.drivers_assignment_management_service.application.usecase.DriversAssignmentUseCase;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -15,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/drivers-assignment")
+@Tag(name = "Drivers Assignment Management", description = "APIs for managing drivers assignment")
 public class DriversAssignmentController {
     private final DriversAssignmentUseCase driversAssignmentUseCase;
 
@@ -24,6 +28,7 @@ public class DriversAssignmentController {
     }
 
     @PostMapping
+    @Operation(summary = "Assign a driver to a route", description = "Assign a driver to a specific route")
     public ResponseEntity<ResponseDTO<DriversAssignmentDTO>> createDriver(@Valid @RequestBody DriversAssignmentDTO driversAssignmentDTO) {
         DriversAssignmentDTO assignDriver = driversAssignmentUseCase.assignDriver(driversAssignmentDTO);
 
@@ -35,6 +40,7 @@ public class DriversAssignmentController {
     }
 
     @GetMapping
+    @Operation(summary = "Get all assigned drivers", description = "Retrieve all drivers assigned to routes")
     public ResponseEntity<ResponseDTO<List<DriversAssignmentDTO>>> getAllAssignedDrivers() {
         return ResponseEntity.ok(
                 new ResponseDTO<>(
@@ -45,6 +51,7 @@ public class DriversAssignmentController {
 
 
     @PutMapping("/{id}")
+    @Operation(summary = "Update driver assignment", description = "Update the assignment of a driver to a route")
     public ResponseEntity<ResponseDTO<DriversAssignmentDTO>> updateDriverAssignment(
             @PathVariable Long id,
             @Valid @RequestBody DriversAssignmentDTO driversAssignmentDTO) {
@@ -58,6 +65,7 @@ public class DriversAssignmentController {
 
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Delete driver assignment", description = "Delete a driver assignment by ID")
     public ResponseEntity<ResponseDTO<Void>> deleteDriverAssignment(@PathVariable Long id) {
         driversAssignmentUseCase.deleteADriverAssignment(id);
         return ResponseEntity.ok(
