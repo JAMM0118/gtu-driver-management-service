@@ -15,7 +15,7 @@ services:
       - DB_USER=user
       - DB_PASSWORD=password
       - SERVER_PORT=0
-      - SWAGGER_SERVER_URL=1
+      - SWAGGER_SERVER_URL=${SWAGGER_SERVER_URL}
     networks:
       - shared_network
 networks:
