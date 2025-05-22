@@ -10,14 +10,16 @@ import org.springframework.orm.jpa.*;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.zaxxer.hikari.HikariDataSource;
+
 import javax.sql.DataSource;
 
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
     basePackages = "com.gtu.drivers_assignment_management_service.infrastructure.persistence.repository",
-    entityManagerFactoryRef = "entityManagerFactory",
-    transactionManagerRef = "transactionManager"
+    entityManagerFactoryRef = "primaryEntityManagerFactory",
+    transactionManagerRef = "primaryTransactionManager"
 )
 public class PrimaryDataSourceConfig {
 
@@ -25,11 +27,11 @@ public class PrimaryDataSourceConfig {
     @Bean(name = "primaryDataSource")
     @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource primaryDataSource() {
-        return DataSourceBuilder.create().build();
+         return DataSourceBuilder.create().type(HikariDataSource.class).build();
     }
 
     @Primary
-    @Bean(name = "entityManagerFactory")
+    @Bean(name = "primaryEntityManagerFactory")
     public LocalContainerEntityManagerFactoryBean primaryEntityManagerFactory(
             EntityManagerFactoryBuilder builder,
             @Qualifier("primaryDataSource") DataSource dataSource) {
@@ -42,9 +44,9 @@ public class PrimaryDataSourceConfig {
     }
 
     @Primary
-    @Bean(name = "transactionManager")
+    @Bean(name = "primaryTransactionManager")
     public PlatformTransactionManager primaryTransactionManager(
-            @Qualifier("entityManagerFactory") LocalContainerEntityManagerFactoryBean entityManagerFactory) {
+            @Qualifier("primaryEntityManagerFactory") LocalContainerEntityManagerFactoryBean entityManagerFactory) {
 
         return new JpaTransactionManager(entityManagerFactory.getObject());
     }

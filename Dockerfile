@@ -1,27 +1,31 @@
-# Etapa 1: Build (usando Maven Wrapper)
+# Etapa 1: Compila el JAR
 FROM maven:3.9.4-eclipse-temurin-17 AS build
 
-# Crear directorio de trabajo
 WORKDIR /app
 
-# Copiar archivos del proyecto
 COPY pom.xml .
 COPY src ./src
 
-# Compilar el proyecto y empacar el .jar
-RUN mvn clean package -DskipTests
+RUN mvn clean package -DskipTests && mv target/*.jar target/app.jar
 
+# Etapa 2: Imagen final con netcat
 # Etapa 2: Imagen final
-FROM eclipse-temurin:17-jdk-alpine
 
-# Directorio para la app
+FROM eclipse-temurin:17-jdk
+
 WORKDIR /app
 
-# Copiar el JAR desde la etapa de build
-COPY --from=build /app/target/*.jar app.jar
+# Instalar netcat y curl para los scripts de espera
+RUN apt-get update && \
+    apt-get install -y netcat-openbsd && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-# Exponer el puerto (asegúrate que coincide con `server.port`)
+COPY --from=build /app/target/*.jar app.jar
+COPY wait-for-services.sh wait-for-services.sh
+
+RUN chmod +x wait-for-services.sh
+
 EXPOSE 8081
 
-# Comando para ejecutar la app
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["./wait-for-services.sh", "postgres-main", "5432", "postgres-users", "5432", "http://discovery-server:8761/eureka/apps"]

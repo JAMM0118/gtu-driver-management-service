@@ -9,11 +9,13 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.*;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import com.zaxxer.hikari.HikariDataSource;
+
 import javax.sql.DataSource;
 
 @Configuration
 @EnableJpaRepositories(
-    basePackages = "com.gtu.drivers_assignment_management_service.route_repository", // Reemplaza con tus repositorios secundarios
+    basePackages = "com.gtu.drivers_assignment_management_service.repository", // Asegúrate que este es el paquete correcto
     entityManagerFactoryRef = "secondaryEntityManagerFactory",
     transactionManagerRef = "secondaryTransactionManager"
 )
@@ -22,7 +24,7 @@ public class SecondaryDataSourceConfig {
     @Bean(name = "secondaryDataSource")
     @ConfigurationProperties(prefix = "secondary.datasource")
     public DataSource secondaryDataSource() {
-        return DataSourceBuilder.create().build();
+        return DataSourceBuilder.create().type(HikariDataSource.class).build();
     }
 
     @Bean(name = "secondaryEntityManagerFactory")
@@ -32,7 +34,7 @@ public class SecondaryDataSourceConfig {
 
         return builder
                 .dataSource(dataSource)
-                .packages("com.gtu.drivers_assignment_management_service.infrastructure.persistence.entity")
+                .packages("com.gtu.drivers_assignment_management_service.infrastructure.persistence.entity") // Asegúrate que tus entidades también están aquí
                 .persistenceUnit("secondary")
                 .build();
     }
