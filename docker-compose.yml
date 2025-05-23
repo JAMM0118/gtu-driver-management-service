@@ -1,0 +1,25 @@
+services:
+  drivers_assignment_management_service:
+    build: .
+    container_name: drivers_assignment_management_service
+    environment:
+      - EUREKA_SERVER_HOST=discovery-server
+      - EUREKA_SERVER_PORT=8761
+      - GATEWAY_PORT=8080
+      - DB_PORT=5432
+      - DB_HOST_ROUTE=postgres-main
+      - DB_NAME_ROUTE=gtu_main_db
+      
+      - DB_HOST_USER=postgres-users
+      - DB_NAME_USER=gtu_users_db
+      
+      - DB_USER=user
+      - DB_PASSWORD=password
+      - SERVER_PORT=0
+      - SWAGGER_SERVER_URL=${SWAGGER_SERVER_URL}
+    networks:
+      - shared_network
+networks:
+  shared_network:
+    external: true
+
