@@ -10,13 +10,10 @@ services:
       - DB_HOST_ROUTE=postgres-main
       - DB_NAME_ROUTE=gtu_main_db
       
-      - DB_HOST_USER=postgres-users
-      - DB_NAME_USER=gtu_users_db
-      
       - DB_USER=user
       - DB_PASSWORD=password
       - SERVER_PORT=0
-      - SWAGGER_SERVER_URL=${SWAGGER_SERVER_URL}
+      - SWAGGER_SERVER_URL=1
     networks:
       - shared_network
 networks:
