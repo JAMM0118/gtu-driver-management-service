@@ -15,8 +15,8 @@ public class DriversAssignment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int route;
-    private String name;
+    private int routeId;
+    private String routeName;
     private List<Long> driversAssignedToRoute;
 
     public DriversAssignment() {
@@ -24,8 +24,8 @@ public class DriversAssignment {
 
     public DriversAssignment(Long id, int route, String name, List<Long> driversAssignedToRoute) {
         this.id = id;
-        this.route = route;
-        this.name = name;
+        this.routeId = route;
+        this.routeName = name;
         this.driversAssignedToRoute = driversAssignedToRoute;
     }
 
@@ -35,17 +35,17 @@ public class DriversAssignment {
     public void setId(Long id) {
         this.id = id;
     }
-    public String getName() {
-        return name;
+    public String getRouteName() {
+        return routeName;
     }
-    public void setName(String name) {
-        this.name = name;
+    public void setRouteName(String name) {
+        this.routeName = name;
     }
-    public int getRoute() {
-        return route;
+    public int getRouteId() {
+        return routeId;
     }
-    public void setRoute(int route) {
-        this.route = route;
+    public void setRouteId(int route) {
+        this.routeId = route;
     }
     public List<Long> getDriversAssignedToRoute() {
         return driversAssignedToRoute;
