@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface JpaDriversAssignmentRepository extends JpaRepository<DriversAssignmentEntity,Long> {
-    Optional<DriversAssignmentEntity> findByName(String name);
+    Optional<DriversAssignmentEntity> findByRouteName(String routeName);
     
 
 

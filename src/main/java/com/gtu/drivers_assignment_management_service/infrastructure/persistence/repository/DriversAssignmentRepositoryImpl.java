@@ -31,8 +31,8 @@ public class DriversAssignmentRepositoryImpl implements DriversAssignmentReposit
     }
 
     @Override
-    public Optional<DriversAssignment> findByName(String name) {
-        return jpaDriversAssignmentRepository.findByName(name).map(driversAssignmentEntityMapper::toDomain);
+    public Optional<DriversAssignment> findByRouteName(String routeName) {
+        return jpaDriversAssignmentRepository.findByRouteName(routeName).map(driversAssignmentEntityMapper::toDomain);
     }
 
     
