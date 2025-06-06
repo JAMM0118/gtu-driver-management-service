@@ -127,30 +127,27 @@ class DriversAssignmentServiceImplTest {
         verify(driversAssignmentRepository, times(1)).save(assignment);
     }
 
-    /*
-     * @Test
-     * void updateADriversAssignment_Success() {
-     * DriversAssignment updated = new DriversAssignment();
-     * updated.setId(1L);
-     * updated.setName("New Name");
-     * updated.setRoute(2);
-     * //updated.setDriversAssignedToRoute(10);
-     * 
-     * when(driversAssignmentRepository.findById(1L)).thenReturn(Optional.of(
-     * assignment));
-     * when(driversAssignmentRepository.save(any())).thenReturn(assignment);
-     * 
-     * DriversAssignment result =
-     * driversAssignmentService.updateADriversAssignment(updated);
-     * 
-     * assertNotNull(result);
-     * assertEquals("New Name", result.getName());
-     * assertEquals(2, result.getRoute());
-     * assertEquals(10, result.getDriversAssignedToRoute());
-     * verify(driversAssignmentRepository, times(1)).findById(1L);
-     * verify(driversAssignmentRepository, times(1)).save(assignment);
-     * }
-     */
+    @Test
+    void updateADriversAssignment_Success() {
+        DriversAssignment updated = new DriversAssignment();
+        updated.setId(1L);
+        updated.setName("Updated Name");
+        updated.setRoute(2);
+        updated.setRouteAssigned(Arrays.asList(3L, 4L));
+
+        when(driversAssignmentRepository.findById(1L)).thenReturn(Optional.of(assignment));
+        when(driversAssignmentRepository.save(any(DriversAssignment.class))).thenReturn(updated);
+
+        DriversAssignment result = driversAssignmentService.updateADriversAssignment(updated);
+
+        assertNotNull(result);
+        assertEquals("Updated Name", result.getName());
+        assertEquals(2, result.getRoute());
+        assertEquals(Arrays.asList(3L, 4L), result.getDriversAssignedToRoute());
+        verify(driversAssignmentRepository, times(1)).findById(1L);
+        verify(driversAssignmentRepository, times(1)).save(any(DriversAssignment.class));
+    }
+
     @Test
     void updateADriversAssignment_NotFound_ThrowsException() {
         DriversAssignment updated = new DriversAssignment();
