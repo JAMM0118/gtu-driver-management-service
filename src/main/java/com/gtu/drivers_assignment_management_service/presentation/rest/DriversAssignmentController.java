@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 @RestController
 @RequestMapping("/drivers-assignment")
 @Tag(name = "Drivers Assignment Management", description = "APIs for managing drivers assignment")
+@CrossOrigin(origins = "*")
 public class DriversAssignmentController {
     private final DriversAssignmentUseCase driversAssignmentUseCase;
 
