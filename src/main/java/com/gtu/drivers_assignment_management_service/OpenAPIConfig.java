@@ -15,7 +15,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 @OpenAPIDefinition(
     info = @Info(title = "Assign Drivers Management API", version = "1.0", description = "API for managing drivers assignment"),
     servers = {
-        @Server(url = "${SWAGGER_SERVER_URL:http://localhost/api/assign_driver}", description = "Server URL")
+        @Server(url = "${SWAGGER_SERVER_URL:http://localhost/api/assign-driver}", description = "Server URL")
     }
 )
 public class OpenAPIConfig {
