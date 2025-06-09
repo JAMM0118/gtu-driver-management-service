@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Schema(description = "Driver Assignment DTO")
 public class DriversAssignmentDTO {
     
-    @Schema(description = "Driver Assignment ID", example = "1")
+    @Schema(description = "Driver Assignment ID", example = "1", accessMode = Schema.AccessMode.READ_ONLY)
     private Long id;
 
     @Schema(description = "Route ID", example = "101")
