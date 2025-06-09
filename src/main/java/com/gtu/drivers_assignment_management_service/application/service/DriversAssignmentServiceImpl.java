@@ -19,10 +19,10 @@ public class DriversAssignmentServiceImpl  implements DriversAssignmentService{
 
    @Override
    public void validateDriver(DriversAssignment driversAssignment){
-    if (driversAssignment.getName() == null || driversAssignment.getName().isEmpty()) {
+    if (driversAssignment.getRouteName() == null || driversAssignment.getRouteName().isEmpty()) {
         throw new IllegalArgumentException("Driver name cannot be null or empty");
     }
-    if (driversAssignment.getRoute() <= 0) {
+    if (driversAssignment.getRouteId() <= 0) {
         throw new IllegalArgumentException("Driver ID must be greater than 0");
     }
     
@@ -50,8 +50,8 @@ public class DriversAssignmentServiceImpl  implements DriversAssignmentService{
         DriversAssignment existingAssignment = driversAssignmentRepository.findById(driversAssignment.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Driver assignment not found"));
 
-        existingAssignment.setName(driversAssignment.getName());
-        existingAssignment.setRoute(driversAssignment.getRoute());
+        existingAssignment.setRouteName(driversAssignment.getRouteName());
+        existingAssignment.setRouteId(driversAssignment.getRouteId());
         existingAssignment.setRouteAssigned(driversAssignment.getDriversAssignedToRoute());
 
         return driversAssignmentRepository.save(existingAssignment);

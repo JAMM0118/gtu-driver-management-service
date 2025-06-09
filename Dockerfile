@@ -21,11 +21,8 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+
 COPY --from=build /app/target/*.jar app.jar
-COPY wait-for-services.sh wait-for-services.sh
 
-RUN chmod +x wait-for-services.sh
 
-EXPOSE 8081
-
-ENTRYPOINT ["./wait-for-services.sh", "postgres-main", "5432", "postgres-users", "5432", "http://discovery-server:8761/eureka/apps"]
+ENTRYPOINT ["java", "-jar", "app.jar"]

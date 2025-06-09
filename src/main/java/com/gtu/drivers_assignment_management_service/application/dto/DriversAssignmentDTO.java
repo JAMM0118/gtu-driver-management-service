@@ -16,16 +16,16 @@ import lombok.NoArgsConstructor;
 @Schema(description = "Driver Assignment DTO")
 public class DriversAssignmentDTO {
     
-    @Schema(description = "Driver Assignment ID", example = "1")
+    @Schema(description = "Driver Assignment ID", example = "1", accessMode = Schema.AccessMode.READ_ONLY)
     private Long id;
 
     @Schema(description = "Route ID", example = "101")
     @NotNull(message = "The route ID cannot be null")
-    private int route;
+    private int routeId;
     
-    @Schema(description = "Driver Name", example = "John Doe")
-    @NotEmpty(message = "The driver name cannot be empty")
-    private String name;
+    @Schema(description = "Route Name", example = "Downtown to Uptown")
+    @NotEmpty(message = "The route name cannot be empty")
+    private String routeName;
     
     @Schema(description = "List of Drivers Assigned to Route", example = "[1, 2, 3]")
     @NotEmpty(message = "The driver assigned to route list cannot be empty")

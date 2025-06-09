@@ -17,7 +17,7 @@ public class DriversAssignmentRepositoryImpl implements DriversAssignmentReposit
 
     public DriversAssignmentRepositoryImpl(
             JpaDriversAssignmentRepository jpaDriversAssignmentRepository,
-            DriversAssignmentEntityMapper driversAssignmentEntityMapper) {
+            DriversAssignmentEntityMapper driversAssignmentEntityMapper ) {
         this.jpaDriversAssignmentRepository = jpaDriversAssignmentRepository;
         this.driversAssignmentEntityMapper = driversAssignmentEntityMapper;
     }
@@ -26,12 +26,13 @@ public class DriversAssignmentRepositoryImpl implements DriversAssignmentReposit
     public DriversAssignment save(DriversAssignment driversAssignment){
         DriversAssignmentEntity driversAssignmentEntity = driversAssignmentEntityMapper.toEntity(driversAssignment);
         DriversAssignmentEntity saveEntity = jpaDriversAssignmentRepository.save(driversAssignmentEntity);
+        
         return driversAssignmentEntityMapper.toDomain(saveEntity);
     }
 
     @Override
-    public Optional<DriversAssignment> findByName(String name) {
-        return jpaDriversAssignmentRepository.findByName(name).map(driversAssignmentEntityMapper::toDomain);
+    public Optional<DriversAssignment> findByRouteName(String routeName) {
+        return jpaDriversAssignmentRepository.findByRouteName(routeName).map(driversAssignmentEntityMapper::toDomain);
     }
 
     

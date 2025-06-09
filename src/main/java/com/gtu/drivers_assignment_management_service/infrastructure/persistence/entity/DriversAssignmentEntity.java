@@ -26,10 +26,10 @@ public class DriversAssignmentEntity {
     private Long id;
 
     @Column(nullable = false)
-    private int route;
+    private int routeId;
     
     @Column(nullable = false)
-    private String name;
+    private String routeName;
     
     @ElementCollection
     @CollectionTable(
@@ -42,8 +42,8 @@ public class DriversAssignmentEntity {
 
     public DriversAssignmentEntity(Long id, int route, String name,List<Long> driversAssignedToRoute) {
         this.id = id;
-        this.route = route;
-        this.name = name;
+        this.routeId = route;
+        this.routeName = name;
         this.driversAssignedToRoute = driversAssignedToRoute;
     }
 }
