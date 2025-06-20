@@ -35,8 +35,8 @@ class DriversAssignmentServiceImplTest {
     void setUp() {
         assignment = new DriversAssignment();
         assignment.setId(1L);
-        assignment.setName("John");
-        assignment.setRoute(1);
+        assignment.setRouteName("John");
+        assignment.setRouteId(1);
         // assignment.setDriversAssignedToRoute(5);
     }
 
@@ -47,7 +47,7 @@ class DriversAssignmentServiceImplTest {
 
     @Test
     void validateDriver_NullName_ThrowsException() {
-        assignment.setName(null);
+        assignment.setRouteName(null);
 
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> {
             driversAssignmentService.validateDriver(assignment);
@@ -57,7 +57,7 @@ class DriversAssignmentServiceImplTest {
 
     @Test
     void validateDriver_EmptyName_ThrowsException() {
-        assignment.setName("");
+        assignment.setRouteName("");
 
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> {
             driversAssignmentService.validateDriver(assignment);
@@ -67,7 +67,7 @@ class DriversAssignmentServiceImplTest {
 
     @Test
     void validateDriver_InvalidRoute_ThrowsException() {
-        assignment.setRoute(0);
+        assignment.setRouteId(0);
 
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> {
             driversAssignmentService.validateDriver(assignment);
@@ -82,7 +82,7 @@ class DriversAssignmentServiceImplTest {
         DriversAssignment result = driversAssignmentService.saveDriver(assignment);
 
         assertNotNull(result);
-        assertEquals("John", result.getName());
+        assertEquals("John", result.getRouteName());
         verify(driversAssignmentRepository, times(1)).save(assignment);
     }
 
@@ -90,8 +90,8 @@ class DriversAssignmentServiceImplTest {
     void getAllAssignedDrivers_ReturnsList() {
         DriversAssignment a2 = new DriversAssignment();
         a2.setId(2L);
-        a2.setName("Jane");
-        a2.setRoute(2);
+        a2.setRouteName("Jane");
+        a2.setRouteId(2);
 
         List<DriversAssignment> assignments = Arrays.asList(assignment, a2);
         when(driversAssignmentRepository.findAll()).thenReturn(assignments);
@@ -123,7 +123,7 @@ class DriversAssignmentServiceImplTest {
         DriversAssignment result = driversAssignmentService.assignDriver(assignment);
 
         assertNotNull(result);
-        assertEquals("John", result.getName());
+        assertEquals("John", result.getRouteName());
         verify(driversAssignmentRepository, times(1)).save(assignment);
     }
 
@@ -131,8 +131,8 @@ class DriversAssignmentServiceImplTest {
     void updateADriversAssignment_Success() {
         DriversAssignment updated = new DriversAssignment();
         updated.setId(1L);
-        updated.setName("Updated Name");
-        updated.setRoute(2);
+        updated.setRouteName("Updated Name");
+        updated.setRouteId(2);
         updated.setRouteAssigned(Arrays.asList(3L, 4L));
 
         when(driversAssignmentRepository.findById(1L)).thenReturn(Optional.of(assignment));
@@ -141,8 +141,8 @@ class DriversAssignmentServiceImplTest {
         DriversAssignment result = driversAssignmentService.updateADriversAssignment(updated);
 
         assertNotNull(result);
-        assertEquals("Updated Name", result.getName());
-        assertEquals(2, result.getRoute());
+        assertEquals("Updated Name", result.getRouteName());
+        assertEquals(2, result.getRouteId());
         assertEquals(Arrays.asList(3L, 4L), result.getDriversAssignedToRoute());
         verify(driversAssignmentRepository, times(1)).findById(1L);
         verify(driversAssignmentRepository, times(1)).save(any(DriversAssignment.class));
