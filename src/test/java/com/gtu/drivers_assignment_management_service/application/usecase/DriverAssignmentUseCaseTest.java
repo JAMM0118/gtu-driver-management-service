@@ -5,7 +5,6 @@ import com.gtu.drivers_assignment_management_service.domain.model.DriversAssignm
 import com.gtu.drivers_assignment_management_service.domain.service.DriversAssignmentService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
