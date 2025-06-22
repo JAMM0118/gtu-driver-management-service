@@ -13,11 +13,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
 @RestController
-@RequestMapping("/drivers-assignment")
+@RequestMapping("/assignments")
 @Tag(name = "Drivers Assignment Management", description = "APIs for managing drivers assignment")
 @CrossOrigin(origins = "*")
 public class DriversAssignmentController {
@@ -30,49 +27,65 @@ public class DriversAssignmentController {
 
     @PostMapping
     @Operation(summary = "Assign a driver to a route", description = "Assign a driver to a specific route")
-    public ResponseEntity<ResponseDTO<DriversAssignmentDTO>> createDriver(@Valid @RequestBody DriversAssignmentDTO driversAssignmentDTO) {
-        DriversAssignmentDTO assignDriver = driversAssignmentUseCase.assignDriver(driversAssignmentDTO);
+    public ResponseDTO<DriversAssignmentDTO> createDriver(@Valid @RequestBody DriversAssignmentDTO driversAssignmentDTO) {
+        DriversAssignmentDTO assignDriver = driversAssignmentUseCase.assignDriverToRoute(driversAssignmentDTO);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(
-                new ResponseDTO<>(
+        return new ResponseDTO<>(
                         "Driver assigned successfully",
                         assignDriver,
-                        201));
+                        201);
+    }
+
+
+    @GetMapping("/route/{routeId}")
+    @Operation(summary = "Get all assigned drivers by route ID", description = "Retrieve all drivers assigned to a specific route")
+    public ResponseDTO<List<DriversAssignmentDTO>> getAllAssignedDriversByRouteId(@PathVariable Long routeId) {
+        return new ResponseDTO<>(
+                "Drivers assigned to route retrieved successfully",
+                driversAssignmentUseCase.getAllAssignedDriversByRouteId(routeId),
+                200);
+    }
+
+    @GetMapping("/driver/{driverId}")
+    @Operation(summary = "Get driver assignment by driver ID", description = "Retrieve a driver assignment by driver ID")
+    public ResponseDTO<DriversAssignmentDTO> getDriverAssignmentByDriverId(@PathVariable Long driverId) {
+        DriversAssignmentDTO driverAssignment = driversAssignmentUseCase.getDriverAssignmentByDriverId(driverId);
+        return new ResponseDTO<>(
+                "Driver assignment retrieved successfully",
+                driverAssignment,
+                200);
     }
 
     @GetMapping
     @Operation(summary = "Get all assigned drivers", description = "Retrieve all drivers assigned to routes")
-    public ResponseEntity<ResponseDTO<List<DriversAssignmentDTO>>> getAllAssignedDrivers() {
-        return ResponseEntity.ok(
+    public ResponseDTO<List<DriversAssignmentDTO>> getAllAssignedDrivers() {
+        return 
                 new ResponseDTO<>(
                         "Drivers assigned retrieved successfully",
                         driversAssignmentUseCase.getAllAssignedDrivers(),
-                        200));
+                        200);
     }
 
-
-    @PutMapping("/{id}")
-    @Operation(summary = "Update driver assignment", description = "Update the assignment of a driver to a route")
-    public ResponseEntity<ResponseDTO<DriversAssignmentDTO>> updateDriverAssignment(
-            @PathVariable Long id,
-            @Valid @RequestBody DriversAssignmentDTO driversAssignmentDTO) {
-        DriversAssignmentDTO updatedDriver = driversAssignmentUseCase.updateADriversAssignment(id, driversAssignmentDTO);
-        return ResponseEntity.ok(
-                new ResponseDTO<>(
-                        "Driver assignment updated successfully",
-                        updatedDriver,
-                        200));
+    @GetMapping("/{id}")
+    @Operation(summary = "Get driver assignment by ID", description = "Retrieve a driver assignment by its ID")
+    public ResponseDTO<DriversAssignmentDTO> getDriverAssignmentById(@PathVariable Long id) {
+        DriversAssignmentDTO driverAssignment = driversAssignmentUseCase.getDriverAssignmentById(id);
+        return  new ResponseDTO<>(
+                        "Driver assignment retrieved successfully",
+                        driverAssignment,
+                        200);
     }
+
 
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete driver assignment", description = "Delete a driver assignment by ID")
-    public ResponseEntity<ResponseDTO<Void>> deleteDriverAssignment(@PathVariable Long id) {
+    public ResponseDTO<Void> deleteDriverAssignment(@PathVariable Long id) {
         driversAssignmentUseCase.deleteADriverAssignment(id);
-        return ResponseEntity.ok(
-                new ResponseDTO<>(
-                        "Driver assignment deleted successfully",
-                        null,
-                        200));
+        return new ResponseDTO<>(
+                "Driver assignment deleted successfully",
+                null,
+                200
+        );
     }
 }
