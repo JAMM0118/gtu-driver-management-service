@@ -2,13 +2,12 @@ package com.gtu.drivers_assignment_management_service.application.usecase;
 
 
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 import org.springframework.stereotype.Service;
 
 import com.gtu.drivers_assignment_management_service.application.dto.DriversAssignmentDTO;
-import com.gtu.drivers_assignment_management_service.application.mapper.DriversAssignmentMapper;
-import com.gtu.drivers_assignment_management_service.domain.model.DriversAssignment;
+import com.gtu.drivers_assignment_management_service.application.mapper.DriverAssignmentMapper;
 import com.gtu.drivers_assignment_management_service.domain.service.DriversAssignmentService;
 
 
@@ -21,30 +20,39 @@ public class DriversAssignmentUseCase {
        
     }
 
-    public DriversAssignmentDTO assignDriver(DriversAssignmentDTO driversAssignmentDTO) {
-        DriversAssignment driversAssignment = DriversAssignmentMapper.toDomain(driversAssignmentDTO);
-        driversAssignmentService.validateDriver(driversAssignment);
-        DriversAssignment savedDriver = driversAssignmentService.saveDriver(driversAssignment);
-        return DriversAssignmentMapper.toDTO(savedDriver);
+    public DriversAssignmentDTO assignDriverToRoute(DriversAssignmentDTO driversAssignmentDTO) {
+        var driverAssignment = driversAssignmentService.assignmentDriver(driversAssignmentDTO.getDriverId(), driversAssignmentDTO.getRouteId());
+        return DriverAssignmentMapper.toDTO(driverAssignment);
     }
 
     
 
     public List<DriversAssignmentDTO> getAllAssignedDrivers() {
-        List<DriversAssignment> drivers = driversAssignmentService.getAllAssignedDrivers();
-        return drivers.stream()
-                .map(DriversAssignmentMapper::toDTO)
-                .collect(Collectors.toList());
+        var driverAssignments = driversAssignmentService.getAllAssignedDrivers();
+        return driverAssignments.stream()
+                .map(DriverAssignmentMapper::toDTO)
+                .toList();
     }
 
-    public DriversAssignmentDTO updateADriversAssignment(Long id, DriversAssignmentDTO driversAssignmentDTO) {
-        DriversAssignment driversAssignment = DriversAssignmentMapper.toDomain(driversAssignmentDTO);
-        driversAssignment.setId(id);
-        DriversAssignment updatedDriver = driversAssignmentService.updateADriversAssignment(driversAssignment);
-        return DriversAssignmentMapper.toDTO(updatedDriver);
+    public DriversAssignmentDTO getDriverAssignmentById(Long id) {
+        var driverAssignment = driversAssignmentService.getDriverAssignmentById(id);
+        return DriverAssignmentMapper.toDTO(driverAssignment);
     }
+
+    public List<DriversAssignmentDTO> getAllAssignedDriversByRouteId(Long routeId) {
+        var driverAssignments = driversAssignmentService.getAllAssignedDriversByRouteId(routeId);
+        return driverAssignments.stream()
+                .map(DriverAssignmentMapper::toDTO)
+                .toList();
+    }
+
+    public DriversAssignmentDTO getDriverAssignmentByDriverId(Long driverId) {
+        var driverAssignment = driversAssignmentService.getDriverAssignmentByDriverId(driverId);
+        return DriverAssignmentMapper.toDTO(driverAssignment);
+    }
+   
 
     public void deleteADriverAssignment(Long id) {
-        driversAssignmentService.deleteADriverAssignment(id);
+        driversAssignmentService.deleteDriverAssignmentById(id);
     }
 }
