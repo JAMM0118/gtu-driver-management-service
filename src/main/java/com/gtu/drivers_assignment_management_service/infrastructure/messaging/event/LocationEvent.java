@@ -2,10 +2,12 @@ package com.gtu.drivers_assignment_management_service.infrastructure.messaging.e
 
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
-@Getter
+@NoArgsConstructor
+@Data
 public class LocationEvent {
     private Long driverId;
     private double latitude;
