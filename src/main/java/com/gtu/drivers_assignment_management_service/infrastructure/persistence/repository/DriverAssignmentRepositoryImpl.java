@@ -59,8 +59,5 @@ public class DriverAssignmentRepositoryImpl implements DriverAssignmentRepositor
         return jpaDriversAssignmentRepository.findByDriverId(driverId)
                 .map(DriverAssignmentEntityMapper::toDomain);
     }
-    
-
-    
 
 }
