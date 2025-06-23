@@ -1,5 +1,6 @@
 package com.gtu.drivers_assignment_management_service.application.service;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -34,10 +35,10 @@ public class DriversAssignmentServiceImpl implements DriversAssignmentService {
     @Override
     public DriverAssignment assignmentDriver(Long driverId, Long routeId) {
         logPublisher.sendLog(
-                String.valueOf(System.currentTimeMillis()),
-                "DriversAssignmentServiceImpl",
+                Instant.now().toString(),
+                "driver-management-service",
                 "INFO",
-                "Assigning driver to route",
+                "QUE PUTO SUEÑO",
                 Map.of("driverId", driverId, "routeId", routeId));
         DriverAssignment driverAssignment = new DriverAssignment();
         driverAssignment.setDriverId(driverId);

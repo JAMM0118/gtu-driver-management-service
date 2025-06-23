@@ -1,5 +1,6 @@
 package com.gtu.drivers_assignment_management_service.application.usecase;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
@@ -25,10 +26,10 @@ public class DriversAssignmentUseCase {
 
     public DriversAssignmentDTO assignDriverToRoute(DriversAssignmentDTO driversAssignmentDTO) {
         logPublisher.sendLog(
-                String.valueOf(System.currentTimeMillis()),
-                "DriversAssignmentUseCase",
+                Instant.now().toString(),
+                "driver-management-service",
                 "INFO",
-                "Assigning driver to route",
+                "COMA MIERDAN LOGS",
                 Map.of("DTO", driversAssignmentDTO));
         var driverAssignment = driversAssignmentService.assignmentDriver(driversAssignmentDTO.getDriverId(),
                 driversAssignmentDTO.getRouteId());

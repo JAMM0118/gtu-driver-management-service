@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.gtu.drivers_assignment_management_service.application.dto.ErrorResponseDTO;
 import com.gtu.drivers_assignment_management_service.infrastructure.logs.LogPublisher;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Map;
 
 @RestControllerAdvice
@@ -26,8 +26,8 @@ public class GlobalExceptionHandler {
         ErrorResponseDTO errorResponse = new ErrorResponseDTO("Validation Error", errorMessage);
 
          logPublisher.sendLog(
-            LocalDateTime.now().toString(),
-            "gtu-driver-management-service",
+            Instant.now().toString(),
+            "driver-management-service",
             "ERROR",
             "Validation Error",
             Map.of("details", errorMessage)
@@ -42,8 +42,8 @@ public class GlobalExceptionHandler {
         ErrorResponseDTO errorResponse = new ErrorResponseDTO("Internal Server Error", ex.getMessage());
 
         logPublisher.sendLog(
-            LocalDateTime.now().toString(),
-            "gtu-driver-management-service",
+            Instant.now().toString(),
+            "driver-management-service",
             "ERROR",
             "Internal Server Error",
             Map.of("details", ex.getMessage())
@@ -57,8 +57,8 @@ public class GlobalExceptionHandler {
         ErrorResponseDTO errorResponse = new ErrorResponseDTO("Invalid Argument", ex.getMessage());
 
         logPublisher.sendLog(
-            LocalDateTime.now().toString(),
-            "gtu-driver-management-service",
+            Instant.now().toString(),
+            "driver-management-service",
             "ERROR",
             "Invalid Argument",
             Map.of("details", ex.getMessage())

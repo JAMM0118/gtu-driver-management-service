@@ -5,10 +5,11 @@ import com.gtu.drivers_assignment_management_service.domain.model.DriverAssignme
 import com.gtu.drivers_assignment_management_service.infrastructure.logs.LogPublisher;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.util.Map;
 
 @Component
-public class DriverAssignmentMapper {
+public class DriverAssignmentMapper{
 
     private final LogPublisher logPublisher;
 
@@ -18,8 +19,8 @@ public class DriverAssignmentMapper {
 
     public DriverAssignment toDomain(DriversAssignmentDTO driversAssignmentDTO) {
         logPublisher.sendLog(
-                String.valueOf(System.currentTimeMillis()),
-                "DriverAssignmentMapper",
+                Instant.now().toString(),
+                "driver-management-service",
                 "INFO",
                 "Mapping DTO to Domain",
                 Map.of("DTO", driversAssignmentDTO));
@@ -34,8 +35,8 @@ public class DriverAssignmentMapper {
 
     public DriversAssignmentDTO toDTO(DriverAssignment driversAssignment) {
         logPublisher.sendLog(
-                String.valueOf(System.currentTimeMillis()),
-                "DriverAssignmentMapper",
+                Instant.now().toString(),
+                "driver-management-service",
                 "INFO",
                 "Mapping Domain to DTO",
                 Map.of("Domain", driversAssignment));

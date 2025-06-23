@@ -5,14 +5,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.core.type.TypeReference;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.*;
-
+import java.util.Map;
 @Component
 public class LogPublisher {
 
@@ -34,18 +28,22 @@ public class LogPublisher {
     public void sendLog(String timestamp, String service, String level, String message, Map<String, Object> details) {
         try {
             Map<String, Object> log = Map.of(
-                    "timestamp", timestamp,
-                    "service", service,
-                    "level", level,
-                    "message", message,
-                    "details", details);
+            "timestamp", timestamp,
+            "service", service,
+            "level", level,
+            "message", message,
+            "details", details
+            );
 
             String logJson = objectMapper.writeValueAsString(log);
+
             amqpTemplate.convertAndSend(exchange, routingKey, logJson);
 
-            System.out.println("✅ LOG SENT: " + logJson);
+            System.out.println("✅ Log sent successfully: " + logJson);
+
         } catch (Exception e) {
-            System.err.println("❌ ERROR SENDING LOG: " + e.getMessage());
+            System.err.println("❌ Error while sending log: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
