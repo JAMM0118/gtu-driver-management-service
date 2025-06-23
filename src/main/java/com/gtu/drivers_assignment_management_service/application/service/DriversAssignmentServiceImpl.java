@@ -38,8 +38,8 @@ public class DriversAssignmentServiceImpl implements DriversAssignmentService {
                 Instant.now().toString(),
                 "driver-management-service",
                 "INFO",
-                "QUE PUTO SUEÑO",
-                Map.of("driverId", driverId, "routeId", routeId));
+                "Assigning driver to route",
+                Map.of("driverId", driverId));
         DriverAssignment driverAssignment = new DriverAssignment();
         driverAssignment.setDriverId(driverId);
         driverAssignment.setRouteId(routeId);
