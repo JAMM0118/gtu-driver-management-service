@@ -9,9 +9,11 @@ services:
       - DB_PORT=5432
       - DB_HOST_ROUTE=postgres-main
       - DB_NAME_ROUTE=gtu_main_db
-      
       - DB_USER=user
       - DB_PASSWORD=password
+      - RABBITMQ_USERNAME=${RABBITMQ_USERNAME}
+      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
+      - RABBITMQ_HOST=rabbitmq
       - SERVER_PORT=0
       - SWAGGER_SERVER_URL=${SWAGGER_SERVER_URL}
     networks:

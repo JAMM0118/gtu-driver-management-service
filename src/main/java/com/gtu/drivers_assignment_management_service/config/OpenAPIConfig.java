@@ -1,4 +1,4 @@
-package com.gtu.drivers_assignment_management_service;
+package com.gtu.drivers_assignment_management_service.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

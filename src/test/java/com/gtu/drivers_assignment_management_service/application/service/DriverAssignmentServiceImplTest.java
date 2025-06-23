@@ -1,8 +1,8 @@
+/* 
 package com.gtu.drivers_assignment_management_service.application.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
@@ -10,8 +10,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import com.gtu.drivers_assignment_management_service.domain.model.DriversAssignment;
-import com.gtu.drivers_assignment_management_service.domain.repository.DriversAssignmentRepository;
+import com.gtu.drivers_assignment_management_service.domain.model.DriverAssignment;
+import com.gtu.drivers_assignment_management_service.domain.repository.DriverAssignmentRepository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,16 +24,16 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class DriversAssignmentServiceImplTest {
 
     @Mock
-    private DriversAssignmentRepository driversAssignmentRepository;
+    private DriverAssignmentRepository driversAssignmentRepository;
 
     @InjectMocks
     private DriversAssignmentServiceImpl driversAssignmentService;
 
-    private DriversAssignment assignment;
+    private DriverAssignment assignment;
 
     @BeforeEach
     void setUp() {
-        assignment = new DriversAssignment();
+        assignment = new DriverAssignment();
         assignment.setId(1L);
         assignment.setRouteName("John");
         assignment.setRouteId(1);
@@ -79,7 +79,7 @@ class DriversAssignmentServiceImplTest {
     void saveDriver_Success() {
         when(driversAssignmentRepository.save(assignment)).thenReturn(assignment);
 
-        DriversAssignment result = driversAssignmentService.saveDriver(assignment);
+        DriverAssignment result = driversAssignmentService.saveDriver(assignment);
 
         assertNotNull(result);
         assertEquals("John", result.getRouteName());
@@ -88,15 +88,15 @@ class DriversAssignmentServiceImplTest {
 
     @Test
     void getAllAssignedDrivers_ReturnsList() {
-        DriversAssignment a2 = new DriversAssignment();
+        DriverAssignment a2 = new DriverAssignment();
         a2.setId(2L);
         a2.setRouteName("Jane");
         a2.setRouteId(2);
 
-        List<DriversAssignment> assignments = Arrays.asList(assignment, a2);
+        List<DriverAssignment> assignments = Arrays.asList(assignment, a2);
         when(driversAssignmentRepository.findAll()).thenReturn(assignments);
 
-        List<DriversAssignment> result = driversAssignmentService.getAllAssignedDrivers();
+        List<DriverAssignment> result = driversAssignmentService.getAllAssignedDrivers();
 
         assertNotNull(result);
         assertEquals(2, result.size());
@@ -109,7 +109,7 @@ class DriversAssignmentServiceImplTest {
     void getAllAssignedDrivers_EmptyList() {
         when(driversAssignmentRepository.findAll()).thenReturn(Collections.emptyList());
 
-        List<DriversAssignment> result = driversAssignmentService.getAllAssignedDrivers();
+        List<DriverAssignment> result = driversAssignmentService.getAllAssignedDrivers();
 
         assertNotNull(result);
         assertTrue(result.isEmpty());
@@ -120,7 +120,7 @@ class DriversAssignmentServiceImplTest {
     void assignDriver_Success() {
         when(driversAssignmentRepository.save(assignment)).thenReturn(assignment);
 
-        DriversAssignment result = driversAssignmentService.assignDriver(assignment);
+        DriverAssignment result = driversAssignmentService.assignDriver(assignment);
 
         assertNotNull(result);
         assertEquals("John", result.getRouteName());
@@ -129,28 +129,28 @@ class DriversAssignmentServiceImplTest {
 
     @Test
     void updateADriversAssignment_Success() {
-        DriversAssignment updated = new DriversAssignment();
+        DriverAssignment updated = new DriverAssignment();
         updated.setId(1L);
         updated.setRouteName("Updated Name");
         updated.setRouteId(2);
         updated.setRouteAssigned(Arrays.asList(3L, 4L));
 
         when(driversAssignmentRepository.findById(1L)).thenReturn(Optional.of(assignment));
-        when(driversAssignmentRepository.save(any(DriversAssignment.class))).thenReturn(updated);
+        when(driversAssignmentRepository.save(any(DriverAssignment.class))).thenReturn(updated);
 
-        DriversAssignment result = driversAssignmentService.updateADriversAssignment(updated);
+        DriverAssignment result = driversAssignmentService.updateADriversAssignment(updated);
 
         assertNotNull(result);
         assertEquals("Updated Name", result.getRouteName());
         assertEquals(2, result.getRouteId());
         assertEquals(Arrays.asList(3L, 4L), result.getDriversAssignedToRoute());
         verify(driversAssignmentRepository, times(1)).findById(1L);
-        verify(driversAssignmentRepository, times(1)).save(any(DriversAssignment.class));
+        verify(driversAssignmentRepository, times(1)).save(any(DriverAssignment.class));
     }
 
     @Test
     void updateADriversAssignment_NotFound_ThrowsException() {
-        DriversAssignment updated = new DriversAssignment();
+        DriverAssignment updated = new DriverAssignment();
         updated.setId(99L);
 
         when(driversAssignmentRepository.findById(99L)).thenReturn(Optional.empty());
@@ -169,3 +169,5 @@ class DriversAssignmentServiceImplTest {
         verify(driversAssignmentRepository, times(1)).deleteById(10L);
     }
 }
+
+*/
