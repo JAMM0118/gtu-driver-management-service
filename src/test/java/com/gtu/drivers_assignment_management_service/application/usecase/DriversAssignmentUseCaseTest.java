@@ -3,15 +3,13 @@ package com.gtu.drivers_assignment_management_service.application.usecase;
 import com.gtu.drivers_assignment_management_service.application.dto.DriversAssignmentDTO;
 import com.gtu.drivers_assignment_management_service.domain.model.DriverAssignment;
 import com.gtu.drivers_assignment_management_service.domain.service.DriversAssignmentService;
+import com.gtu.drivers_assignment_management_service.infrastructure.logs.LogPublisher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-
-
-
-
+import com.gtu.drivers_assignment_management_service.application.mapper.DriverAssignmentMapper;
 
 class DriversAssignmentUseCaseTest {
 
@@ -21,7 +19,9 @@ class DriversAssignmentUseCaseTest {
     @BeforeEach
     void setUp() {
         driversAssignmentService = mock(DriversAssignmentService.class);
-        driversAssignmentUseCase = new DriversAssignmentUseCase(driversAssignmentService);
+        LogPublisher logPublisher = mock(LogPublisher.class);
+        DriverAssignmentMapper driverAssignmentMapper = new DriverAssignmentMapper(logPublisher);
+        driversAssignmentUseCase = new DriversAssignmentUseCase(driversAssignmentService, driverAssignmentMapper);
     }
 
     @Test

@@ -8,13 +8,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-
-
-
+import com.gtu.drivers_assignment_management_service.infrastructure.logs.LogPublisher;
 
 class GlobalExceptionHandlerTest {
 
-    private final GlobalExceptionHandler handler = new GlobalExceptionHandler();
+    LogPublisher logPublisher = mock(LogPublisher.class);
+    private final GlobalExceptionHandler handler = new GlobalExceptionHandler(logPublisher);
 
     @Test
     void handleValidationExceptions_shouldReturnBadRequestWithFieldErrorMessage() {

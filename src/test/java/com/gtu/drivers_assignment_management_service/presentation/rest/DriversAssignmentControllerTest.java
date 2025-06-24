@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import com.gtu.drivers_assignment_management_service.infrastructure.logs.LogPublisher;
 
 @ExtendWith(MockitoExtension.class)
 class DriversAssignmentControllerTest {
@@ -41,8 +42,9 @@ class DriversAssignmentControllerTest {
     @BeforeEach
     void setUp() {
         objectMapper = new ObjectMapper();
+        LogPublisher logPublisher = mock(LogPublisher.class);
         mockMvc = MockMvcBuilders.standaloneSetup(controller)
-                .setControllerAdvice(new GlobalExceptionHandler())
+                .setControllerAdvice(new GlobalExceptionHandler(logPublisher))
                 .setMessageConverters(new MappingJackson2HttpMessageConverter(objectMapper))
                 .build();
         dto = new DriversAssignmentDTO(100L, 1L, 101L, 2L, 3L, 4L);
@@ -66,12 +68,12 @@ class DriversAssignmentControllerTest {
     @Test
     void createDriver_shouldReturnBadRequestOnValidationError() throws Exception {
         DriversAssignmentDTO invalidDto = new DriversAssignmentDTO(1L, null, null, 2L, null, null);
-        when(driversAssignmentUseCase.assignDriverToRoute(any())).thenThrow(new IllegalArgumentException("Validation Error"));
+        when(driversAssignmentUseCase.assignDriverToRoute(any()))
+                .thenThrow(new IllegalArgumentException("Validation Error"));
         mockMvc.perform(post("/assignments")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(invalidDto)))
-                .andExpect(status().isBadRequest())
-               ;
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -112,7 +114,8 @@ class DriversAssignmentControllerTest {
 
     @Test
     void deleteDriverAssignment_shouldReturnBadRequestOnServiceException() throws Exception {
-        doThrow(new IllegalArgumentException("Assignment does not exist")).when(driversAssignmentUseCase).deleteADriverAssignment(5L);
+        doThrow(new IllegalArgumentException("Assignment does not exist")).when(driversAssignmentUseCase)
+                .deleteADriverAssignment(5L);
 
         mockMvc.perform(delete("/assignments/5"))
                 .andExpect(status().isBadRequest())
