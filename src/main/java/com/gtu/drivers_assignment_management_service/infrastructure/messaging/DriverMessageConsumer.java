@@ -10,16 +10,20 @@ import com.gtu.drivers_assignment_management_service.config.RabbitMQConfig;
 import com.gtu.drivers_assignment_management_service.domain.service.DriversAssignmentService;
 import com.gtu.drivers_assignment_management_service.infrastructure.messaging.event.LocationEvent;
 
-import lombok.RequiredArgsConstructor;
 
 @Component
-@RequiredArgsConstructor
 public class DriverMessageConsumer {
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
-    private final Logger logger = Logger.getLogger(DriverMessageConsumer.class.getName());
+    private final ObjectMapper objectMapper;
+    private final Logger logger;
     private final DriversAssignmentService driversAssignmentService;
-    
+
+    public DriverMessageConsumer(DriversAssignmentService driversAssignmentService) {
+        this.objectMapper = new ObjectMapper();
+        this.logger = Logger.getLogger(DriverMessageConsumer.class.getName());
+        this.driversAssignmentService = driversAssignmentService;
+    }
+
     @RabbitListener(queues = RabbitMQConfig.DRIVER_QUEUE)
     public void receiveMessage(String message) {
         try {

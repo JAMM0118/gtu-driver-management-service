@@ -1,28 +1,13 @@
 package com.gtu.drivers_assignment_management_service.application.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ErrorResponseDTO {
     private String message;
     private String details;
-    
-
-    public ErrorResponseDTO(String message, String details) {
-        this.message = message;
-        this.details = details;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getDetails() {
-        return details;
-    }
-
-    public void setDetails(String details) {
-        this.details = details;
-    }
 }

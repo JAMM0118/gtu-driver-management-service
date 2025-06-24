@@ -22,7 +22,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponseDTO> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        String errorMessage = ex.getBindingResult().getFieldError().getDefaultMessage();
+        var exceptionMessage = ex.getBindingResult().getFieldError();
+        if (exceptionMessage == null) {
+            return ResponseEntity.badRequest().body(new ErrorResponseDTO("Validation Error", "Invalid request data"));
+        }
+        String errorMessage = exceptionMessage.getDefaultMessage();
+
         ErrorResponseDTO errorResponse = new ErrorResponseDTO("Validation Error", errorMessage);
 
          logPublisher.sendLog(
