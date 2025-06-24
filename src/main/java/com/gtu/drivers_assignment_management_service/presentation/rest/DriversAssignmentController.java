@@ -18,7 +18,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/assignments")
 @Tag(name = "Drivers Assignment Management", description = "APIs for managing drivers assignment")
-@CrossOrigin(origins = "*")
 public class DriversAssignmentController {
     private final DriversAssignmentUseCase driversAssignmentUseCase;
 
