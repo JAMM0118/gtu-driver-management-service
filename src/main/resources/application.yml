@@ -1,3 +1,11 @@
+rabbitmq:
+  queue:
+    log: log-queue
+  exchange:
+    log: log-exchange
+  routingkey:
+    log: log-routing-key
+
 spring:
   application:
     name: drivers-assignment-management-service
@@ -19,7 +27,6 @@ spring:
     port: ${RABBITMQ_PORT:5672}
     username: ${RABBITMQ_USERNAME:guest}
     password: ${RABBITMQ_PASSWORD:guest}
-
 
 server:
   port: ${SERVER_PORT:8081}

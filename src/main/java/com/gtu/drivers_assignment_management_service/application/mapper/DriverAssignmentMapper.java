@@ -18,28 +18,47 @@ public class DriverAssignmentMapper{
     }
 
     public DriverAssignment toDomain(DriversAssignmentDTO driversAssignmentDTO) {
-        logPublisher.sendLog(
-                Instant.now().toString(),
-                "driver-management-service",
-                "INFO",
-                "Mapping DTO to Domain",
-                Map.of("DTO", driversAssignmentDTO));
-        return new DriverAssignment(
+        DriverAssignment domain = new DriverAssignment(
                 driversAssignmentDTO.getId(),
                 driversAssignmentDTO.getDriverId(),
                 driversAssignmentDTO.getRouteId(),
                 driversAssignmentDTO.getCurrentStopId(),
                 driversAssignmentDTO.getLatestStopId(),
-                driversAssignmentDTO.getNextStopId());
+                driversAssignmentDTO.getNextStopId()
+        );
+
+        if (driversAssignmentDTO.getCurrentStopId() != null && driversAssignmentDTO.getNextStopId() != null &&
+                !driversAssignmentDTO.getCurrentStopId().equals(driversAssignmentDTO.getNextStopId())) {
+            logPublisher.sendLog(
+                    Instant.now().toString(),
+                    "driver-management-service",
+                    "INFO",
+                    "Cambio de parada detectado en mapeo DTO -> Dominio",
+                    Map.of(
+                            "driverId", driversAssignmentDTO.getDriverId(),
+                            "fromStopId", driversAssignmentDTO.getCurrentStopId(),
+                            "toStopId", driversAssignmentDTO.getNextStopId()
+                    )
+            );
+        }
+
+        return domain;
     }
 
     public DriversAssignmentDTO toDTO(DriverAssignment driversAssignment) {
-        logPublisher.sendLog(
-                Instant.now().toString(),
-                "driver-management-service",
-                "INFO",
-                "Mapping Domain to DTO",
-                Map.of("Domain", driversAssignment));
+        if (driversAssignment.getLatestStopId() == null && driversAssignment.getCurrentStopId() != null) {
+            logPublisher.sendLog(
+                    Instant.now().toString(),
+                    "driver-management-service",
+                    "INFO",
+                    "Asignación inicial detectada en mapeo Dominio -> DTO",
+                    Map.of(
+                            "driverId", driversAssignment.getDriverId(),
+                            "initialStopId", driversAssignment.getCurrentStopId()
+                    )
+            );
+        }
+        
         return new DriversAssignmentDTO(
                 driversAssignment.getId(),
                 driversAssignment.getDriverId(),

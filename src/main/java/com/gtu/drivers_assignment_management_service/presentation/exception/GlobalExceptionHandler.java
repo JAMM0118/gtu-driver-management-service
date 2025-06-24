@@ -46,7 +46,7 @@ public class GlobalExceptionHandler {
             "driver-management-service",
             "ERROR",
             "Internal Server Error",
-            Map.of("details", ex.getMessage())
+            Map.of("details", ex.getMessage(), "cause", ex.getCause() != null ? ex.getCause().toString() : "N/A")
         );
 
         return ResponseEntity.status(500).body(errorResponse);

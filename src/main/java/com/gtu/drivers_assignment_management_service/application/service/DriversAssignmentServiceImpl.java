@@ -39,7 +39,7 @@ public class DriversAssignmentServiceImpl implements DriversAssignmentService {
                 "driver-management-service",
                 "INFO",
                 "Assigning driver to route",
-                Map.of("driverId", driverId));
+                Map.of("driverId", driverId, "routeId", routeId));
         DriverAssignment driverAssignment = new DriverAssignment();
         driverAssignment.setDriverId(driverId);
         driverAssignment.setRouteId(routeId);

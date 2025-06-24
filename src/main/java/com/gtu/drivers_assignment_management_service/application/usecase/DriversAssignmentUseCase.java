@@ -1,36 +1,22 @@
 package com.gtu.drivers_assignment_management_service.application.usecase;
-
-import java.time.Instant;
 import java.util.List;
-import java.util.Map;
-
 import org.springframework.stereotype.Service;
 
 import com.gtu.drivers_assignment_management_service.application.dto.DriversAssignmentDTO;
 import com.gtu.drivers_assignment_management_service.application.mapper.DriverAssignmentMapper;
 import com.gtu.drivers_assignment_management_service.domain.service.DriversAssignmentService;
-import com.gtu.drivers_assignment_management_service.infrastructure.logs.LogPublisher;
 
 @Service
 public class DriversAssignmentUseCase {
     private final DriversAssignmentService driversAssignmentService;
-    private final LogPublisher logPublisher;
     private final DriverAssignmentMapper driverAssignmentMapper;
 
-    public DriversAssignmentUseCase(DriversAssignmentService driversAssignmentService, LogPublisher logPublisher,
-            DriverAssignmentMapper driverAssignmentMapper) {
+    public DriversAssignmentUseCase(DriversAssignmentService driversAssignmentService, DriverAssignmentMapper driverAssignmentMapper) {
         this.driversAssignmentService = driversAssignmentService;
-        this.logPublisher = logPublisher;
         this.driverAssignmentMapper = driverAssignmentMapper;
     }
 
     public DriversAssignmentDTO assignDriverToRoute(DriversAssignmentDTO driversAssignmentDTO) {
-        logPublisher.sendLog(
-                Instant.now().toString(),
-                "driver-management-service",
-                "INFO",
-                "COMA MIERDAN LOGS",
-                Map.of("DTO", driversAssignmentDTO));
         var driverAssignment = driversAssignmentService.assignmentDriver(driversAssignmentDTO.getDriverId(),
                 driversAssignmentDTO.getRouteId());
         return driverAssignmentMapper.toDTO(driverAssignment);
