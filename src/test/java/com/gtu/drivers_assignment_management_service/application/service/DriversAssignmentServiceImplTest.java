@@ -5,29 +5,31 @@ import com.gtu.drivers_assignment_management_service.domain.model.Route;
 import com.gtu.drivers_assignment_management_service.domain.model.Stop;
 import com.gtu.drivers_assignment_management_service.domain.repository.DriverAssignmentRepository;
 import com.gtu.drivers_assignment_management_service.domain.service.RouteService;
+import com.gtu.drivers_assignment_management_service.infrastructure.logs.LogPublisher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.amqp.core.AmqpTemplate;
 import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
-
-
-
-
 class DriversAssignmentServiceImplTest {
 
     private DriverAssignmentRepository driversAssignmentRepository;
     private RouteService routeService;
     private DriversAssignmentServiceImpl driversAssignmentService;
+    private LogPublisher logPublisher;
+    AmqpTemplate amqpTemplate = mock(AmqpTemplate.class);
 
     @BeforeEach
     void setUp() {
         driversAssignmentRepository = mock(DriverAssignmentRepository.class);
         routeService = mock(RouteService.class);
-        driversAssignmentService = new DriversAssignmentServiceImpl(driversAssignmentRepository, routeService);
+        logPublisher = new LogPublisher(amqpTemplate);
+        driversAssignmentService = new DriversAssignmentServiceImpl(driversAssignmentRepository, routeService,
+                logPublisher);
     }
 
     @Test
@@ -89,6 +91,7 @@ class DriversAssignmentServiceImplTest {
         assertEquals(stopId, assignment.getCurrentStopId());
         assertNull(assignment.getLatestStopId());
     }
+
     @Test
     void updateCurrentStopId_shouldUpdateAssignmentAtStopWithNullCurrentStop() {
         var driverAssignment = new DriverAssignment(1L, 2L, 2L, 3L, null, 4L);
@@ -103,7 +106,7 @@ class DriversAssignmentServiceImplTest {
         verify(driversAssignmentRepository, times(1)).update(any(DriverAssignment.class));
     }
 
-     @Test
+    @Test
     void updateCurrentStopId_shouldUpdateAssignmentAtStopWithNullRoute() {
         var driverAssignment = new DriverAssignment(1L, 2L, 2L, 3L, null, 4L);
         when(driversAssignmentRepository.findAll()).thenReturn(List.of(driverAssignment));
@@ -111,7 +114,6 @@ class DriversAssignmentServiceImplTest {
         driversAssignmentService.updateCurrentStopId(1L, 0.0, 0.0);
         verify(driversAssignmentRepository, never()).update(any());
     }
-
 
     @Test
     void updateCurrentStopId_shouldNotUpdateIfNoAssignmentFound() {
