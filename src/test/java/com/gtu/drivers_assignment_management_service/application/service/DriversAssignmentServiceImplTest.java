@@ -11,8 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.amqp.core.AmqpTemplate;
 import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 class DriversAssignmentServiceImplTest {
@@ -181,5 +179,43 @@ class DriversAssignmentServiceImplTest {
     void getDriverAssignmentByDriverId_shouldThrowIfNotFound() {
         when(driversAssignmentRepository.getDriverAssignmentByDriverId(1L)).thenReturn(Optional.empty());
         assertThrows(IllegalArgumentException.class, () -> driversAssignmentService.getDriverAssignmentByDriverId(1L));
+    }
+
+    @Test
+    void updateCurrentStopId_shouldUpdateAssignmentAwayFromStop() {
+        Long driverId = 1L;
+        Long routeId = 100L;
+        Long stopId = 10L;
+        List<Long> stops = Arrays.asList(stopId, 20L);
+        Route route = new Route(routeId, "Route", stops);
+        DriverAssignment assignment = new DriverAssignment();
+        assignment.setDriverId(driverId);
+        assignment.setRouteId(routeId);
+        assignment.setCurrentStopId(stopId);
+        Stop stop = new Stop(stopId, "Stop 1", 0.0, 0.0);
+
+        when(driversAssignmentRepository.findAll()).thenReturn(List.of(assignment));
+        when(routeService.getRouteById(routeId)).thenReturn(route);
+        when(routeService.getStopById(stopId)).thenReturn(stop);
+
+        driversAssignmentService.updateCurrentStopId(driverId, 80.0, 80.0);
+
+        assertNull(assignment.getCurrentStopId());
+        assertEquals(stopId, assignment.getLatestStopId());
+        assertEquals(20L, assignment.getNextStopId());
+        verify(driversAssignmentRepository).update(any(DriverAssignment.class));
+    }
+
+    @Test
+    void updateCurrentStopId_shouldNotUpdateIfRouteNull() {
+        Long driverId = 1L;
+        DriverAssignment assignment = new DriverAssignment();
+        assignment.setDriverId(driverId);
+
+        when(driversAssignmentRepository.findAll()).thenReturn(List.of(assignment));
+        when(routeService.getRouteById(anyLong())).thenReturn(null);
+
+        driversAssignmentService.updateCurrentStopId(driverId, 0.0, 0.0);
+        verify(driversAssignmentRepository, never()).update(any());
     }
 }

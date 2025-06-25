@@ -16,6 +16,11 @@ public class GlobalExceptionHandler {
 
     private final LogPublisher logPublisher;
 
+    private static final String MESSAGE_VALIDATION_ERROR = "Validation Error";
+    private static final String LOG_LEVEL_ERROR = "ERROR";
+    private static final String LOG_KEY_DETAILS = "details";
+    private static final String LOG_SERVICE_NAME = "driver-management-service";
+
     public GlobalExceptionHandler(LogPublisher logPublisher) {
         this.logPublisher = logPublisher;
     }
@@ -32,10 +37,10 @@ public class GlobalExceptionHandler {
 
          logPublisher.sendLog(
             Instant.now().toString(),
-            "driver-management-service",
-            "ERROR",
-            "Validation Error",
-            Map.of("details", errorMessage)
+            LOG_SERVICE_NAME,
+            LOG_LEVEL_ERROR,
+            MESSAGE_VALIDATION_ERROR,
+            Map.of(LOG_KEY_DETAILS, errorMessage)
         );
         
         return ResponseEntity.badRequest().body(errorResponse);
@@ -48,10 +53,10 @@ public class GlobalExceptionHandler {
 
         logPublisher.sendLog(
             Instant.now().toString(),
-            "driver-management-service",
-            "ERROR",
+            LOG_SERVICE_NAME,
+            LOG_LEVEL_ERROR,
             "Internal Server Error",
-            Map.of("details", ex.getMessage(), "cause", ex.getCause() != null ? ex.getCause().toString() : "N/A")
+            Map.of(LOG_KEY_DETAILS, ex.getMessage(), "cause", ex.getCause() != null ? ex.getCause().toString() : "N/A")
         );
 
         return ResponseEntity.status(500).body(errorResponse);
@@ -63,10 +68,10 @@ public class GlobalExceptionHandler {
 
         logPublisher.sendLog(
             Instant.now().toString(),
-            "driver-management-service",
-            "ERROR",
+            LOG_SERVICE_NAME,
+            LOG_LEVEL_ERROR,
             "Invalid Argument",
-            Map.of("details", ex.getMessage())
+            Map.of(LOG_KEY_DETAILS, ex.getMessage())
         );
 
         return ResponseEntity.badRequest().body(errorResponse);
